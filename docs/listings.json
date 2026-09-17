@@ -1,0 +1,50 @@
+{
+  "updated": "2026-09-17T11:13:22Z",
+  "source": "https://reataranchrealty.com/agents/doug-siddens",
+  "listings": [
+    {
+      "id": "11770502-9da5-45c6-a3fd-01bd4bc2c60e",
+      "title": "1292 Upper Turtle Creek Road",
+      "price": 1699999,
+      "priceLabel": "$1,699,999",
+      "address": "1292 Upper Turtle Creek Road, Kerrville, TX 78028",
+      "city": "Kerrville",
+      "photo": "https://dlajgvw9htjpb.cloudfront.net/cms/d35b0af8-248c-413b-b5f9-d720b12d0bc1/104861/-63956697460906087.jpg",
+      "url": "https://reataranchrealty.com/properties/1292-upper-turtle-creek-road-kerrville-tx-us-78028-104861",
+      "meta": "4 bd \u00b7 3 ba \u00b7 2,277 sq ft \u00b7 39 acres \u00b7 Kerrville"
+    },
+    {
+      "id": "944a24c0-d73c-49cf-921a-21d38c34a5f3",
+      "title": "768 N Walnut Springs Rd",
+      "price": 399000,
+      "priceLabel": "$399,000",
+      "address": "768 N Walnut Springs Rd # 26, Johnson City, TX 78636",
+      "city": "Johnson City",
+      "photo": "https://dlajgvw9htjpb.cloudfront.net/cms/d35b0af8-248c-413b-b5f9-d720b12d0bc1/104869/7616229429245028948.jpg",
+      "url": "https://reataranchrealty.com/properties/768-n-walnut-springs-rd-26-johnson-city-tx-us-78636-104869",
+      "meta": "7.01 acres \u00b7 Johnson City"
+    },
+    {
+      "id": "e1d38d21-4f60-434f-8b59-4d28ed7714a7",
+      "title": "Lot 13 N Spies Ridge Dr. # 13",
+      "price": 379000,
+      "priceLabel": "$379,000",
+      "address": "Lot 13 N Spies Ridge Dr. # 13, Fredericksburg, TX 78624",
+      "city": "Fredericksburg",
+      "photo": "https://dlajgvw9htjpb.cloudfront.net/cms/d35b0af8-248c-413b-b5f9-d720b12d0bc1/104868/-2563466783195693420.jpg",
+      "url": "https://reataranchrealty.com/properties/lot-13-n-spies-ridge-dr-13-fredericksburg-tx-us-78624-104868",
+      "meta": "7.18 acres \u00b7 Fredericksburg"
+    },
+    {
+      "id": "2f7d6c87-f8a9-418e-b57c-a89d3c391ae6",
+      "title": "485 Inspiration Loop",
+      "price": 330000,
+      "priceLabel": "$330,000",
+      "address": "485 Inspiration Loop # 103, Fredericksburg, TX 78624",
+      "city": "Fredericksburg",
+      "photo": "https://dlajgvw9htjpb.cloudfront.net/cms/d35b0af8-248c-413b-b5f9-d720b12d0bc1/104862/-3877330182611693397.jpg",
+      "url": "https://reataranchrealty.com/properties/485-inspiration-loop-103-fredericksburg-tx-us-78624-104862",
+      "meta": "5.08 acres \u00b7 Fredericksburg"
+    }
+  ]
+}
