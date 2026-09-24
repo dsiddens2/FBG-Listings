@@ -10,3 +10,5 @@ Public URL: `https://dsiddens2.github.io/FBG-Listings/listings.json`
 3. That writes `docs/listings.json`. A daily GitHub Action does the same.
 
 Do not copy this JSON into finder repos. Finders fetch the public URL. Hide the listings row if the fetch is empty.
+
+Standalone Squarespace widget lives in this repo: `docs/embed.css`, `docs/embed.js`, paste file `squarespace-embed.html`. Shuffle on each load (Fisher–Yates). See-all uses the Fredericksburg home-search URL, not the agent bio. Do not persist shuffle order.
