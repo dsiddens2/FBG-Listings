@@ -12,6 +12,7 @@ ROOT = Path(__file__).resolve().parent
 DOCS = ROOT / "docs"
 LISTINGS_OUT = DOCS / "listings.json"
 LISTINGS_OVERRIDES = ROOT / "listings_overrides.json"
+LISTINGS_PINS = ROOT / "listings_pins.json"
 LISTINGS_PAGE = "https://reataranchrealty.com/agents/doug-siddens"
 LISTINGS_ENDPOINT = "https://reataranchrealty.com/api-gw/graphql"
 LP_COMPANY_ID = "d35b0af8-248c-413b-b5f9-d720b12d0bc1"
@@ -42,6 +43,119 @@ def format_price(value) -> str:
         return "Price on request"
     number = int(round(float(value)))
     return f"${number:,}"
+
+
+def load_listing_pins() -> list:
+    if not LISTINGS_PINS.exists():
+        return []
+    try:
+        data = json.loads(LISTINGS_PINS.read_text())
+    except json.JSONDecodeError:
+        return []
+    listings = data.get("listings") if isinstance(data, dict) else data
+    if not isinstance(listings, list):
+        return []
+    return [item for item in listings if isinstance(item, dict) and item.get("url")]
+
+
+def pin_from_home_search(url: str) -> dict | None:
+    request = urllib.request.Request(
+        url,
+        headers={
+            "accept": "text/html",
+            "user-agent": "DiscoverFBG-Listings/1.0",
+        },
+    )
+    try:
+        with urllib.request.urlopen(request, timeout=20) as response:
+            html = response.read().decode("utf-8", "replace")
+    except (urllib.error.URLError, TimeoutError, UnicodeError):
+        return None
+    marker = '<script id="__NEXT_DATA__" type="application/json">'
+    start = html.find(marker)
+    if start < 0:
+        return None
+    start += len(marker)
+    end = html.find("</script>", start)
+    if end < 0:
+        return None
+    try:
+        payload = json.loads(html[start:end])
+    except json.JSONDecodeError:
+        return None
+    listing = (payload.get("props") or {}).get("pageProps", {}).get("listing") or {}
+    status = (listing.get("standardStatus") or listing.get("mlsStatus") or "").upper()
+    if status not in {"ACTIVE", "FOR_SALE"}:
+        return None
+    photos = listing.get("photos") or []
+    photo = ""
+    if photos:
+        photo = photos[0].get("photoUrl") or photos[0].get("thumbnailUrl") or ""
+    city = (listing.get("city") or "").strip()
+    state = (listing.get("state") or "").strip()
+    postal = (listing.get("postalCode") or "").strip()
+    name = (listing.get("unparsedAddress") or "").strip()
+    place = " ".join(
+        part for part in [", ".join(part for part in [city, state] if part), postal] if part
+    )
+    address = ", ".join(part for part in [name, place] if part)
+    acres = listing.get("acreage")
+    if acres not in (None, ""):
+        acres = round(float(acres), 2)
+    return {
+        "id": listing.get("displayId") or listing.get("listingId") or "",
+        "name": name,
+        "status": "FOR_SALE",
+        "salesPrice": listing.get("listPrice"),
+        "fullAddress": address,
+        "addressCity": city,
+        "bedroomCount": listing.get("bedroomsTotal") or 0,
+        "bathCount": listing.get("bathroomsTotal"),
+        "livingSpaceSize": listing.get("livingArea"),
+        "lotAreaSize": acres,
+        "url": url.split("?")[0],
+        "media": [{"mediumUrl": photo}] if photo else [],
+    }
+
+
+def resolve_pin(pin: dict) -> dict | None:
+    live = pin_from_home_search((pin.get("url") or "").strip())
+    if live:
+        merged = dict(pin)
+        merged.update({key: value for key, value in live.items() if value not in (None, "", [])})
+        merged["status"] = "FOR_SALE"
+        return merged
+    if (pin.get("status") or "FOR_SALE").upper() in {"ACTIVE", "FOR_SALE"}:
+        return dict(pin)
+    return None
+
+
+def listing_keys(raw: dict) -> set[str]:
+    keys = set()
+    for value in (raw.get("id"), raw.get("slug"), raw.get("url"), raw.get("name")):
+        text = str(value or "").strip().lower()
+        if text:
+            keys.add(text)
+    return keys
+
+
+def merge_pinned_listings(active: list) -> list:
+    seen = set()
+    for item in active:
+        seen |= listing_keys(item)
+    merged = list(active)
+    for pin in load_listing_pins():
+        resolved = resolve_pin(pin)
+        if not resolved:
+            print(f"Skipping pin (unavailable): {pin.get('url')}")
+            continue
+        keys = listing_keys(resolved)
+        if keys & seen:
+            continue
+        seen |= keys
+        merged.append(resolved)
+        print(f"Pinned listing: {resolved.get('name') or resolved.get('url')}")
+    return merged
 
 
 def load_listing_overrides() -> dict:
@@ -101,6 +215,9 @@ def normalize_listing(raw: dict) -> dict:
     if media:
         photo = media[0].get("mediumUrl") or media[0].get("largeUrl") or ""
     slug = (raw.get("slug") or "").strip()
+    url = (raw.get("url") or "").strip()
+    if not url:
+        url = f"https://reataranchrealty.com/properties/{slug}" if slug else LISTINGS_PAGE
     return {
         "id": raw.get("id") or "",
         "title": (raw.get("name") or "").strip(),
@@ -109,7 +226,7 @@ def normalize_listing(raw: dict) -> dict:
         "address": (raw.get("fullAddress") or "").strip(),
         "city": (raw.get("addressCity") or "").strip(),
         "photo": photo,
-        "url": f"https://reataranchrealty.com/properties/{slug}" if slug else LISTINGS_PAGE,
+        "url": url,
         "meta": listing_meta(raw),
     }
 
@@ -143,6 +260,7 @@ def fetch_listings() -> dict:
         raise RuntimeError(errors[0].get("message") or "listings GraphQL error")
     props = body.get("data", {}).get("properties") or []
     active = [item for item in props if item.get("status") == "FOR_SALE"]
+    active = merge_pinned_listings(active)
     active.sort(key=lambda item: float(item.get("salesPrice") or 0), reverse=True)
     return {
         "updated": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),

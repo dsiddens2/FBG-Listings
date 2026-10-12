@@ -1,0 +1,22 @@
+{
+  "listings": [
+    {
+      "url": "https://reataranchrealty.com/home-search/listings/8508239955907085562-203-Flight-Path",
+      "id": "5a1d5584-000f-496b-9e35-5bc86d017eeb",
+      "name": "203 Flight Path",
+      "status": "FOR_SALE",
+      "salesPrice": 2300000,
+      "fullAddress": "203 Flight Path, Fredericksburg, TX 78624",
+      "addressCity": "Fredericksburg",
+      "bedroomCount": 4,
+      "bathCount": 4,
+      "livingSpaceSize": 4089,
+      "lotAreaSize": 7.79,
+      "media": [
+        {
+          "mediumUrl": "https://dvvjkgh94f2v6.cloudfront.net/aa9e350f/104109/83dcefb7.jpeg"
+        }
+      ]
+    }
+  ]
+}

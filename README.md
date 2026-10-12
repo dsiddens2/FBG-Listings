@@ -33,4 +33,4 @@ Preview: `docs/embed.html`.
 python3 bake_listings.py
 ```
 
-A GitHub Action runs that daily. Put MLS corrections in `listings_overrides.json` so the next refresh keeps them.
+A GitHub Action runs that daily. Put MLS corrections in `listings_overrides.json` so the next refresh keeps them. Put listings that are not on the agent feed in `listings_pins.json`; bake fetches the live Reata page and merges them into the snapshot.

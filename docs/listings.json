@@ -1,12 +1,23 @@
 {
-  "updated": "2026-09-24T17:11:14Z",
+  "updated": "2026-10-12T17:12:20Z",
   "source": "https://reataranchrealty.com/agents/doug-siddens",
   "listings": [
     {
+      "id": "5a1d5584-000f-496b-9e35-5bc86d017eeb",
+      "title": "203 Flight Path",
+      "price": 2300000,
+      "priceLabel": "$2,300,000",
+      "address": "203 Flight Path, Fredericksburg, TX 78624",
+      "city": "Fredericksburg",
+      "photo": "https://dvvjkgh94f2v6.cloudfront.net/aa9e350f/104109/83dcefb7.jpeg",
+      "url": "https://reataranchrealty.com/home-search/listings/8508239955907085562-203-Flight-Path",
+      "meta": "4 bd \u00b7 4 ba \u00b7 4,089 sq ft \u00b7 7.79 acres \u00b7 Fredericksburg"
+    },
+    {
       "id": "11770502-9da5-45c6-a3fd-01bd4bc2c60e",
       "title": "1292 Upper Turtle Creek Road",
-      "price": 1699999,
-      "priceLabel": "$1,699,999",
+      "price": 1640000,
+      "priceLabel": "$1,640,000",
       "address": "1292 Upper Turtle Creek Road, Kerrville, TX 78028",
       "city": "Kerrville",
       "photo": "https://dlajgvw9htjpb.cloudfront.net/cms/d35b0af8-248c-413b-b5f9-d720b12d0bc1/104861/-63956697460906087.jpg",
