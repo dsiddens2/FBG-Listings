@@ -8,6 +8,12 @@ on:
 permissions:
   contents: write
 
+# GitHub sometimes starts the same cron twice. Queue the second run and
+# rebase before push so it does not fail with "fetch first".
+concurrency:
+  group: refresh-listings
+  cancel-in-progress: false
+
 jobs:
   refresh:
     runs-on: ubuntu-latest
@@ -24,5 +30,6 @@ jobs:
             echo "No listing changes"
           else
             git commit -m "Refresh Reata Ranch listings snapshot."
+            git pull --rebase origin main
             git push
           fi
