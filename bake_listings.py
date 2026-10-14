@@ -45,6 +45,36 @@ def format_price(value) -> str:
     return f"${number:,}"
 
 
+def graphql_properties(**variables) -> list:
+    payload = {
+        "operationName": "Properties",
+        "query": LISTINGS_QUERY,
+        "variables": {
+            "companyId": LP_COMPANY_ID,
+            "archived": False,
+            "offset": 0,
+            "limit": 24,
+            **variables,
+        },
+    }
+    request = urllib.request.Request(
+        LISTINGS_ENDPOINT,
+        data=json.dumps(payload).encode("utf-8"),
+        headers={
+            "content-type": "application/json",
+            "accept": "application/json",
+            "user-agent": "DiscoverFBG-Listings/1.0",
+        },
+        method="POST",
+    )
+    with urllib.request.urlopen(request, timeout=20) as response:
+        body = json.loads(response.read().decode("utf-8"))
+    errors = body.get("errors") or []
+    if errors:
+        raise RuntimeError(errors[0].get("message") or "listings GraphQL error")
+    return body.get("data", {}).get("properties") or []
+
+
 def load_listing_pins() -> list:
     if not LISTINGS_PINS.exists():
         return []
@@ -118,8 +148,39 @@ def pin_from_home_search(url: str) -> dict | None:
     }
 
 
+def pin_from_company_property(url: str) -> dict | None:
+    slug = url.split("?")[0].rstrip("/").split("/")[-1]
+    if not slug:
+        return None
+    terms = [slug]
+    tail = slug.rsplit("-", 1)[-1]
+    if tail and tail not in terms:
+        terms.append(tail)
+    for term in terms:
+        try:
+            props = graphql_properties(search=term)
+        except (urllib.error.URLError, TimeoutError, RuntimeError):
+            continue
+        for item in props:
+            if (item.get("slug") or "").strip() != slug:
+                continue
+            if item.get("status") != "FOR_SALE":
+                return None
+            live = dict(item)
+            live["url"] = url.split("?")[0]
+            return live
+    return None
+
+
 def resolve_pin(pin: dict) -> dict | None:
-    live = pin_from_home_search((pin.get("url") or "").strip())
+    url = (pin.get("url") or "").strip()
+    live = None
+    if "/home-search/listings/" in url:
+        live = pin_from_home_search(url)
+    elif "/properties/" in url:
+        live = pin_from_company_property(url)
+    else:
+        live = pin_from_home_search(url) or pin_from_company_property(url)
     if live:
         merged = dict(pin)
         merged.update({key: value for key, value in live.items() if value not in (None, "", [])})
@@ -203,7 +264,11 @@ def listing_meta(raw: dict) -> str:
         parts.append(f"{int(float(sqft)):,} sq ft")
     if acres:
         size = float(acres)
-        parts.append("1 acre" if size == 1 else f"{size:g} acres")
+        units = (raw.get("lotAreaUnits") or "").upper()
+        if units in {"SQUARE_FEET", "SQFT", "SQ_FT"}:
+            size = round(size / 43560, 2)
+        if size >= 0.01:
+            parts.append("1 acre" if round(size, 2) == 1 else f"{size:g} acres")
     if city:
         parts.append(city)
     return " · ".join(parts)
@@ -232,33 +297,7 @@ def normalize_listing(raw: dict) -> dict:
 
 
 def fetch_listings() -> dict:
-    payload = {
-        "operationName": "Properties",
-        "query": LISTINGS_QUERY,
-        "variables": {
-            "companyId": LP_COMPANY_ID,
-            "agentIds": [LP_AGENT_ID],
-            "archived": False,
-            "offset": 0,
-            "limit": 24,
-        },
-    }
-    request = urllib.request.Request(
-        LISTINGS_ENDPOINT,
-        data=json.dumps(payload).encode("utf-8"),
-        headers={
-            "content-type": "application/json",
-            "accept": "application/json",
-            "user-agent": "DiscoverFBG-Listings/1.0",
-        },
-        method="POST",
-    )
-    with urllib.request.urlopen(request, timeout=20) as response:
-        body = json.loads(response.read().decode("utf-8"))
-    errors = body.get("errors") or []
-    if errors:
-        raise RuntimeError(errors[0].get("message") or "listings GraphQL error")
-    props = body.get("data", {}).get("properties") or []
+    props = graphql_properties(agentIds=[LP_AGENT_ID])
     active = [item for item in props if item.get("status") == "FOR_SALE"]
     active = merge_pinned_listings(active)
     active.sort(key=lambda item: float(item.get("salesPrice") or 0), reverse=True)

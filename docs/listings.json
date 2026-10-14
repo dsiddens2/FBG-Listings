@@ -1,7 +1,18 @@
 {
-  "updated": "2026-10-12T17:12:20Z",
+  "updated": "2026-10-14T17:51:41Z",
   "source": "https://reataranchrealty.com/agents/doug-siddens",
   "listings": [
+    {
+      "id": "3298972d-843a-4284-b920-bbd3eef9fbae",
+      "title": "412, 406, 414 E E. Main ST",
+      "price": 7620000,
+      "priceLabel": "$7,620,000",
+      "address": "412, 406, 414 E E. Main ST, Fredericksburg, TX 78624",
+      "city": "Fredericksburg",
+      "photo": "https://dlajgvw9htjpb.cloudfront.net/cms/d35b0af8-248c-413b-b5f9-d720b12d0bc1/5584133/-4137785757328500470.jpg",
+      "url": "https://reataranchrealty.com/properties/412-406-414-e-e-main-st-fredericksburg-tx-us-78624-5584133",
+      "meta": "1,962 sq ft \u00b7 0.22 acres \u00b7 Fredericksburg"
+    },
     {
       "id": "5a1d5584-000f-496b-9e35-5bc86d017eeb",
       "title": "203 Flight Path",

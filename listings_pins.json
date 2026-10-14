@@ -17,6 +17,25 @@
           "mediumUrl": "https://dvvjkgh94f2v6.cloudfront.net/aa9e350f/104109/83dcefb7.jpeg"
         }
       ]
+    },
+    {
+      "url": "https://reataranchrealty.com/properties/412-406-414-e-e-main-st-fredericksburg-tx-us-78624-5584133",
+      "id": "3298972d-843a-4284-b920-bbd3eef9fbae",
+      "name": "412, 406, 414 E E. Main ST",
+      "status": "FOR_SALE",
+      "salesPrice": 7620000,
+      "fullAddress": "412, 406, 414 E E. Main ST, Fredericksburg, TX 78624",
+      "addressCity": "Fredericksburg",
+      "bedroomCount": 0,
+      "livingSpaceSize": 1962,
+      "lotAreaSize": 9400.25,
+      "lotAreaUnits": "SQUARE_FEET",
+      "slug": "412-406-414-e-e-main-st-fredericksburg-tx-us-78624-5584133",
+      "media": [
+        {
+          "mediumUrl": "https://dlajgvw9htjpb.cloudfront.net/cms/d35b0af8-248c-413b-b5f9-d720b12d0bc1/5584133/-4137785757328500470.jpg"
+        }
+      ]
     }
   ]
 }
