@@ -36,6 +36,26 @@
           "mediumUrl": "https://dlajgvw9htjpb.cloudfront.net/cms/d35b0af8-248c-413b-b5f9-d720b12d0bc1/5584133/-4137785757328500470.jpg"
         }
       ]
+    },
+    {
+      "url": "https://reataranchrealty.com/properties/518-interlaken-st-fredericksburg-tx-us-78624-9996582",
+      "id": "69948a5f-ead3-4085-8ce3-b9153517f54d",
+      "name": "518 Interlaken ST",
+      "status": "FOR_SALE",
+      "salesPrice": 2995000,
+      "fullAddress": "518 Interlaken ST, Fredericksburg, TX 78624",
+      "addressCity": "Fredericksburg",
+      "bedroomCount": 4,
+      "bathCount": 4,
+      "livingSpaceSize": 4072,
+      "lotAreaSize": 0.6,
+      "lotAreaUnits": "ACRE",
+      "slug": "518-interlaken-st-fredericksburg-tx-us-78624-9996582",
+      "media": [
+        {
+          "mediumUrl": "https://dlajgvw9htjpb.cloudfront.net/cms/d35b0af8-248c-413b-b5f9-d720b12d0bc1/9996582/-8349818892130999023.jpg"
+        }
+      ]
     }
   ]
 }
