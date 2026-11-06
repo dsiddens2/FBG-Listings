@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-05T12:24:56Z",
+  "updated": "2026-11-06T12:23:48Z",
   "source": "https://reataranchrealty.com/agents/doug-siddens",
   "listings": [
     {
@@ -45,6 +45,17 @@
       "photo": "https://dlajgvw9htjpb.cloudfront.net/cms/d35b0af8-248c-413b-b5f9-d720b12d0bc1/104861/-63956697460906087.jpg",
       "url": "https://reataranchrealty.com/properties/1292-upper-turtle-creek-road-kerrville-tx-us-78028-104861",
       "meta": "4 bd \u00b7 3 ba \u00b7 2,277 sq ft \u00b7 39 acres \u00b7 Kerrville"
+    },
+    {
+      "id": "a74ce134-33a7-4721-86b5-2ef7087da2bc",
+      "title": "310 S Bowie ST",
+      "price": 749000,
+      "priceLabel": "$749,000",
+      "address": "310 S Bowie ST, Fredericksburg, TX 78624",
+      "city": "Fredericksburg",
+      "photo": "https://dlajgvw9htjpb.cloudfront.net/cms/d35b0af8-248c-413b-b5f9-d720b12d0bc1/1098926/3012371928316815125.jpg",
+      "url": "https://reataranchrealty.com/properties/310-s-bowie-st-fredericksburg-tx-us-78624-1098926",
+      "meta": "2 bd \u00b7 2 ba \u00b7 1,036 sq ft \u00b7 0.18 acres \u00b7 Fredericksburg"
     },
     {
       "id": "944a24c0-d73c-49cf-921a-21d38c34a5f3",
